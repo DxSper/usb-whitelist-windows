@@ -295,8 +295,11 @@ if __name__ == "__main__":
                 pass
     
 
-    # TODO: randomize the name of this file:
-    file_path = "usb_devices.json"
+    
+    manager_path = os.path.abspath(__file__)
+    project_directory = os.path.dirname(manager_path)
+    # TODO Randomize the name of this files:
+    file_path = os.path.join(project_directory, "usb_devices.json")
     choiceprint(options)
     while True:
         choice(file_path)

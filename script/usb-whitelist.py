@@ -13,12 +13,6 @@ import json
 import usb.util
 import configparser
 
-# Config
-config = configparser.ConfigParser()
-config.read('../config/settings.conf')
-block = config['config']['block']
-lock = config['config']['lock']
-log = config['config']['log']
 
 # USB Backend
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -33,9 +27,23 @@ DBT_DEVICEREMOVECOMPLETE = 0x8004
 DBT_DEVNODES_CHANGED = 0x0007
 DBT_DEVTYP_DEVICEINTERFACE = 0x0005
 GUID_DEVINTERFACE_USB_DEVICE = "{A5DCBF10-6530-11D2-901F-00C04FB951ED}"
-# TODO Randomize the name of this file:
-file_path = "../usb_devices.json"
 
+
+# Files path compatible with admin lunch:
+# get script path
+script_path = os.path.abspath(__file__)
+script_directory = os.path.dirname(script_path)
+project_directory = os.path.dirname(script_directory)
+# TODO Randomize the name of this files:
+file_path = os.path.join(project_directory, "usb_devices.json")
+log_file_path = os.path.join(project_directory, "log", "log.txt")
+# Config
+config_path = os.path.join(project_directory, "config", "settings.conf")
+config = configparser.ConfigParser()
+config.read(config_path)
+block = config['config']['block']
+lock = config['config']['lock']
+log = config['config']['log']
 
 
 class USBDeviceMonitor:
@@ -65,7 +73,7 @@ class USBDeviceMonitor:
 
     def log_info(self, message, device):
         if log == "Yes":
-            log_file_path = "../log/log.txt"
+            
             current_time = time.strftime("%Y-%m-%d %H:%M:%S")
             log_message = f"[{current_time}] {message}:\n {device}"
             with open(log_file_path, "a") as log_file:
